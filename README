@@ -1,0 +1,3 @@
+put bot file in /resources with the name
+						file.getName().startsWith("wynn-discord-bot-") &&
+						file.getName().endsWith("-withDependencies.jar")
