@@ -22,8 +22,13 @@ public class BotLauncher implements DedicatedServerModInitializer {
 
 			// Build command to run bot jar
 			ProcessBuilder pb = new ProcessBuilder(
-					"java", "-jar", botJar.getAbsolutePath()
+					"java",
+					"-XX:+HeapDumpOnOutOfMemoryError",
+					"-XX:HeapDumpPath=" + botJar.getParentFile().getAbsolutePath() + "/heapdump.hprof",
+					"-jar",
+					botJar.getAbsolutePath()
 			);
+
 
 			// Redirect bot's output to MC console
 			pb.inheritIO();
