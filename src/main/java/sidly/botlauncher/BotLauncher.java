@@ -5,6 +5,9 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.Optional;
+
+
 public class BotLauncher implements DedicatedServerModInitializer {
 
 	@Override
@@ -18,6 +21,20 @@ public class BotLauncher implements DedicatedServerModInitializer {
 		}
 
 		try {
+
+			String botJarPrefix = "wynn-discord-bot-";
+			boolean isRunning = ProcessHandle.allProcesses()
+					.map(ProcessHandle::info)
+					.map(ProcessHandle.Info::commandLine)
+					.filter(Optional::isPresent)
+					.map(Optional::get)
+					.anyMatch(cmd -> cmd.contains("java -jar") && cmd.contains(botJarPrefix));
+
+			if (isRunning) {
+				System.out.println("Bot is already running");
+				return;
+			}
+
 			System.out.println("[BotLauncher] Launching bot from: " + botJar.getAbsolutePath());
 
 			// Build command to run bot jar
